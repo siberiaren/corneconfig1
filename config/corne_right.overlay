@@ -1,0 +1,60 @@
+/*
+ * Custom Corne Right Overlay
+ * Baseado nos pinos fornecidos:
+ * Colunas: P0.06, P0.07, P0.15, P0.16, P0.09, P0.14
+ * Linhas: P0.05, P0.08, P0.10, P0.18, P0.19
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <dt-bindings/zmk/matrix.h>
+#include <dt-bindings/zmk/backlight.h>
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/kscan_gpio.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        // zmk,backlight = &backlight; // Descomente se usar LEDs
+        // zmk,rgb = &rgb;           // Descomente se usar LEDs
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN_0";
+
+        // Definição dos pinos das LINHAS (ROWS) - 5 linhas
+        // Use GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN para rows
+        row-gpios = <&gpio0 5  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)  // Pino 5
+                     &gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)  // Pino 8
+                     &gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 10
+                     &gpio0 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 18
+                     &gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 19
+                    >;
+
+        // Definição dos pinos das COLUNAS (COLUMNS) - 6 colunas
+        // Use GPIO_ACTIVE_HIGH | GPIO_PULL_UP para columns
+        col-gpios = <&gpio0 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)  // Pino 6
+                     &gpio0 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)  // Pino 7
+                     &gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 15
+                     &gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 16
+                     &gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)  // Pino 9
+                     &gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 14
+                    >;
+
+        diode-direction = "col2row"; // Mantenha "col2row" se for o mesmo que o lado esquerdo.
+        col-count = <6>;
+        row-count = <5>;
+    };
+
+    // --- Configurações Opcionais para o Corne ---
+    // Se o pino 20 (ou outros pinos não usados na matriz) for para LEDs, encoders, etc.,
+    // você precisaria adicionar uma seção específica para eles aqui. Exemplo para LEDs RGB:
+    /*
+    rgb: rgb_0 {
+        compatible = "zmk,rgb-strip";
+        gpio-pin = <&gpio0 20>; // Exemplo: se o pino 20 for para o DATA do LED RGB
+        chain-length = <12>;    // Ajuste para o número de LEDs no seu strip
+    };
+    */
+};
