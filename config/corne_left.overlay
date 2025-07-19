@@ -1,0 +1,47 @@
+/*
+ * Custom Corne Left Overlay
+ * Baseado nos pinos fornecidos:
+ * Colunas: P0.21, P0.10, P0.16, P0.14, P0.20, P0.19
+ * Linhas: P0.04, P0.15, P0.09, P0.08, P0.07
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <dt-bindings/zmk/matrix.h>
+#include <dt-bindings/zmk/backlight.h>
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/kscan_gpio.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        // zmk,backlight = &backlight;
+        // zmk,rgb = &rgb;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN_0";
+
+        // Definição dos pinos das LINHAS (ROWS) - 5 linhas
+        row-gpios = <&gpio0 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+                     &gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+                     &gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+                     &gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+                     &gpio0 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+                    >;
+
+        // Definição dos pinos das COLUNAS (COLUMNS) - 6 colunas
+        col-gpios = <&gpio0 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                     &gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                     &gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                     &gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                     &gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                     &gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+                    >;
+
+        diode-direction = "col2row";
+        **col-count = <6>;**
+        **row-count = <5>;**
+    };
+};
