@@ -1,7 +1,17 @@
+/*
+ * Custom Corne Left Overlay
+ * Baseado nos pinos fornecidos:
+ * Colunas: P0.21, P0.10, P0.16, P0.14, P0.20, P0.19
+ * Linhas: P0.04, P0.15, P0.09, P0.08, P0.07
+ *
+ * SPDX-License-Identifier: MIT
+ */
 
 / {
     chosen {
         zmk,kscan = &kscan0;
+        // Se você usa LEDs debaixo (underglow), descomente as linhas abaixo.
+        // Se não, deixe-as comentadas.
         // zmk,backlight = &backlight;
         // zmk,rgb = &rgb;
     };
@@ -11,24 +21,49 @@
         label = "KSCAN_0";
 
         // Definição dos pinos das LINHAS (ROWS) - 5 linhas
-        row-gpios = <&gpio0 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
-                     &gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
-                     &gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
-                     &gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
-                     &gpio0 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)
+        // Use GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN para rows
+        row-gpios = <&gpio0 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 4
+                     &gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 15
+                     &gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 9
+                     &gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 8
+                     &gpio0 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) // Pino 7
                     >;
 
         // Definição dos pinos das COLUNAS (COLUMNS) - 6 colunas
-        col-gpios = <&gpio0 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
-                     &gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
-                     &gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
-                     &gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
-                     &gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
-                     &gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)
+        // Use GPIO_ACTIVE_HIGH | GPIO_PULL_UP para columns
+        col-gpios = <&gpio0 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 21
+                     &gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 10
+                     &gpio0 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 16
+                     &gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 14
+                     &gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 20
+                     &gpio0 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 19
                     >;
 
         diode-direction = "col2row";
-        **col-count = <6>;**
-        **row-count = <5>;**
+        col-count = <6>;
+        row-count = <5>;
     };
-};
+
+    // --- IMPORTANTE: Certifique-se de que nada aqui está descomentado a menos que seja um bloco completo e correto ---
+    // Exemplo de configuração de LEDs WS2812 (Underglow/Backlight)
+    /*
+    rgb: rgb_0 {
+        compatible = "zmk,rgb-strip";
+        gpio-pin = <&gpio0 XX>; // Substitua XX pelo número do pino GPIO para o DATA do LED
+        chain-length = <NN>; // Substitua NN pelo número total de LEDs no seu strip
+    };
+    */
+
+    // Exemplo de configuração de Encoder Rotativo
+    /*
+    encoders {
+        compatible = "zmk,encoders";
+        encoder_1: encoder_1 {
+            label = "ENCODER_1";
+            a-gpios = <&gpio0 X (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+            b-gpios = <&gpio0 Y (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+            steps-per-cycle = <4>;
+        };
+    };
+    */
+}; // <--- MUITO IMPORTANTE: Certifique-se de que este último "}" está presente para fechar o bloco "/"
