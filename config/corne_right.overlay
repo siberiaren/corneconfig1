@@ -1,3 +1,11 @@
+/*
+ * Custom Corne Right Overlay
+ * Baseado nos pinos fornecidos:
+ * Colunas: P0.06, P0.07, P0.15, P0.16, P0.09, P0.14
+ * Linhas: P0.05, P0.08, P0.10, P0.18, P0.19
+ *
+ * SPDX-License-Identifier: MIT
+ */
 
 / {
     chosen {
@@ -29,19 +37,10 @@
                      &gpio0 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP) // Pino 14
                     >;
 
-        diode-direction = "col2row"; // Mantenha "col2row" se for o mesmo que o lado esquerdo.
-        col-count = <6>;
-        row-count = <5>;
+        diode-direction = "col2row";
+        // As linhas col-count e row-count devem ser REMOVIDAS daqui
+        // O ZMK infere a contagem pelos gpios definidos.
     };
 
-    // --- Configurações Opcionais para o Corne ---
-    // Se o pino 20 (ou outros pinos não usados na matriz) for para LEDs, encoders, etc.,
-    // você precisaria adicionar uma seção específica para eles aqui. Exemplo para LEDs RGB:
-    /*
-    rgb: rgb_0 {
-        compatible = "zmk,rgb-strip";
-        gpio-pin = <&gpio0 20>; // Exemplo: se o pino 20 for para o DATA do LED RGB
-        chain-length = <12>;    // Ajuste para o número de LEDs no seu strip
-    };
-    */
+    // ... o resto do seu arquivo (se houver, como exemplos de RGB/Encoder comentados)
 };
