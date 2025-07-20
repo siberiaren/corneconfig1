@@ -10,15 +10,13 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        // Se você usa LEDs debaixo (underglow), descomente as linhas abaixo.
-        // Se não, deixe-as comentadas.
         // zmk,backlight = &backlight;
         // zmk,rgb = &rgb;
     };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
-        label = "KSCAN_0";
+        label = "KSCAN_0"; // Nota: o warning 'label' is marked as deprecated' pode ser ignorado por enquanto.
 
         // Definição dos pinos das LINHAS (ROWS) - 5 linhas
         // Use GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN para rows
@@ -40,30 +38,9 @@
                     >;
 
         diode-direction = "col2row";
-        col-count = <6>;
-        row-count = <5>;
+        // --- REMOVA AS DUAS LINHAS ABAIXO ---
+        // col-count = <6>;
+        // row-count = <5>;
+        // -----------------------------------
     };
-
-    // --- IMPORTANTE: Certifique-se de que nada aqui está descomentado a menos que seja um bloco completo e correto ---
-    // Exemplo de configuração de LEDs WS2812 (Underglow/Backlight)
-    /*
-    rgb: rgb_0 {
-        compatible = "zmk,rgb-strip";
-        gpio-pin = <&gpio0 XX>; // Substitua XX pelo número do pino GPIO para o DATA do LED
-        chain-length = <NN>; // Substitua NN pelo número total de LEDs no seu strip
-    };
-    */
-
-    // Exemplo de configuração de Encoder Rotativo
-    /*
-    encoders {
-        compatible = "zmk,encoders";
-        encoder_1: encoder_1 {
-            label = "ENCODER_1";
-            a-gpios = <&gpio0 X (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-            b-gpios = <&gpio0 Y (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-            steps-per-cycle = <4>;
-        };
-    };
-    */
-}; // <--- MUITO IMPORTANTE: Certifique-se de que este último "}" está presente para fechar o bloco "/"
+};
